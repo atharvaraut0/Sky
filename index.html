@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<body>
+ <div id="container">
+    <div id="sky">
+        <div id="sun"></div>
+        <div id="moon"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+              <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+                <!-- First blur to create the initial glow effect -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur1"/>
+                
+                <!-- Apply an additional blur over the merged image -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2"/>
+                
+                <!-- Merge the first blur with the original graphic -->
+                <feMerge>
+                  <feMergeNode in="blur1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+                
+                <!-- Merge the additional blur with the merged image -->
+                <feComposite in="blur2" in2="merge" operator="over"/>
+              </filter>
+            </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+              <filter id="glow-moon" x="-100%" y="-100%" width="300%" height="300%">
+                <!-- First blur to create the initial glow effect -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1"/>
+                
+                <!-- Apply an additional blur over the merged image -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2"/>
+                
+                <!-- Merge the first blur with the original graphic -->
+                <feMerge>
+                  <feMergeNode in="blur1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+                
+                <!-- Merge the additional blur with the merged image -->
+                <feComposite in="blur2" in2="merge" operator="over"/>
+              </filter>
+            </defs>
+        </svg>
+
+        <div id="ui">
+            <div id="top-ui">
+                <div id="console-section">
+                    <button class="dropdown-btn"></button>
+                    <span>Console section here</span>
+                </div>
+            </div>
+            <div id="bottom-ui">
+                <div id="about">
+                    <button class="dropup-btn">About Me</button>
+                    <div class="btn-menu-items">
+                        <span id="about-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit,</span>
+
+                    </div>   
+                </div>
+                <div id="user-controls">
+                    <div id="time" class="bottom-control-section">
+                        <div id="time-ui">
+                            <button class="time-speed-btn">R</button>
+                            <span id="timecode">00:00:00</span>
+                            <div id="time-button">
+                                <button class="dropup-btn">1X</button>
+                                <div class="btn-menu-items">
+                                    <button class="list-item">4X</button>
+                                    <button class="list-item">8X</button>
+                                    <button class="list-item">16X</button>
+                                    <button class="list-item">64X</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div id="season" class="bottom-control-section">
+                        <button class="dropup-btn">Season</button>
+                        <div class="btn-menu-items">
+                            <button class="list-item">Summer</button>
+                            <button class="list-item">Fall</button>
+                            <button class="list-item">Spring</button>
+                        </div>
+                    </div>
+                    <div id="weather" class="bottom-control-section">
+                        <button class="dropup-btn">Weather</button>
+                        <div class="btn-menu-items">
+                            <button class="list-item">Clear</button>
+                            <button class="list-item">Hazy</button>
+                            <button class="list-item">Cloudy</button>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            
+        </div>
+    </div>
+ </div> 
+</body>
+<script src="script.js"></script>
+</html>

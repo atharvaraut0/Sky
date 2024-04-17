@@ -1,0 +1,189 @@
+
+  /************** CSS Reset **************/
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    overflow-x: hidden;
+  }
+  
+  ol, ul {
+    list-style: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button {
+    border: none;
+  }
+  /************** End CSS Reset **************/
+
+  
+  /********************** Basic Styles *******************/
+
+
+
+ body {
+    max-width: 100vw;
+    max-height: 100vh;
+    background-color: blue;
+    display: flex;
+    overflow: hidden;
+
+ }
+
+ #sky {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(180deg, hsl(201, 100%, 63%) 0%, hsl(201, 100%, 50%) 100%);
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+/* @keyframes moveSun {
+    0% {
+        top: -10vw; 
+    }
+    100% {
+        top: 100vh; 
+    }
+} */
+
+#sun {
+  width: 10vw;
+  height: 10vw;
+  background-color: hsla(37, 100%, 97%, 1);
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px 0px rgba(255, 0, 0, 0.05) inset;
+  /* filter: drop-shadow(0px 0px 625px rgba(255, 255, 255, 0.75)) blur(225px); */
+  filter: url(#glow);
+  position: absolute;     
+}
+
+#moon {
+  width: 5vw;
+  height: 5vw;
+  background-color: hsla(37, 100%, 97%, 1);
+  border-radius: 50%;
+  position: absolute;
+  filter: url(#glow-moon);
+}
+
+#ui {
+  width: 100vw;
+  padding: 0.5% 0.7%;
+  /* background-color: red; */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#bottom-ui {
+  width: 100vw;
+  /* background-color: blue; */
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+#user-controls {
+  display: flex;
+  align-items: space-between;
+  gap: 1vw;
+}
+
+.dropup-btn {
+  border-radius: 0;
+  width: 5vw;
+}
+
+.time-speed-btn {
+  border-radius: 0;
+  width: 2vw;
+  
+}
+
+#about {
+  display: flex;
+  align-self: flex-end;
+  flex-direction: column-reverse;
+  padding-left : 1.4%;
+}
+
+#about-body-text {
+  width: 15vw;
+  color: #1C1C1C;
+  text-align: left;
+  font-family: "IBM Plex Mono";
+  font-size: 0.7vw;
+  font-style: normal;
+  font-weight: 400;
+  padding-bottom: 5%;
+}
+
+.bottom-control-section {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#time-ui {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5vw;
+  
+}
+
+
+
+#time-button {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.btn-menu-items {
+  display: none;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.60);
+  z-index: 1;
+  flex-direction: column; /* Display items in a vertical column */
+}
+
+
+
+.dropup-btn, .list-item, .time-speed-btn, #timecode {
+  color: #1C1C1C;
+  text-align: center;
+  font-family: "IBM Plex Mono";
+  font-size: 0.7vw;
+  font-style: normal;
+  font-weight: 400;
+  background-color: rgba(255, 255, 255, 0.60);
+}
+
+
+
+
+
+.dropup-btn:hover + .btn-menu-items,
+.btn-menu-items:hover {
+  display: flex;
+  
+}
+
+.list-item:hover {background-color: rgba(165, 165, 165, 0.671)}
