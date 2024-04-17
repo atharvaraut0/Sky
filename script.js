@@ -15,7 +15,7 @@ function updateTime() {
     let timeString = `${hours}:${minutes}:${seconds}`;
     time.innerText = timeString;
     let timeArray = [hours, minutes, seconds];
-    // let timeArray = ['18','50','00']
+    // let timeArray = ['00','00','00']
     // console.log(`${hours}:${minutes}:${seconds}`)
     // console.log(timeArray)
     return timeArray;
@@ -25,7 +25,7 @@ console.log(updateTime())
 
 setInterval(updateTime, 1000); // Update every second
 
-//Setting global day based on season
+//Setting global day based on season///////////////////////////////////////////////////////////////
 // Add functionality with buttons here
 let startTime = 6 * 3600;
 let endTime = (19 * 3600) + (30 * 60); // 7:30 PM
@@ -43,27 +43,29 @@ function changeSky() {
     let seconds = parseInt(timeArray[2]);
     let totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
-    let skyRiseStart = startTime - (30 * 60);
-    let skyRiseEnd = startTime + (30 * 60);
-    let skySetStart = endTime - (10 * 60);
+    let skyRiseStart = startTime - (40 * 60);
+    let skyRiseEnd = startTime ;
+    let skySetStart = endTime - (30 * 60);
     let skySetEnd = endTime + (30 * 60);
     let topLum;
     let bottomLum;
-    let delay = 600;
+   
+    let delay = 800;
 
     if(totalSeconds >= skyRiseStart && totalSeconds < skySetEnd) {
-        if(totalSeconds < skyRiseEnd) {
+        if(totalSeconds < skyRiseEnd && totalSeconds >= skyRiseStart) {
             topLum = (totalSeconds - skyRiseStart) / (skyRiseEnd - skyRiseStart);
             
 
             bottomLum = ((totalSeconds - delay) - skyRiseStart) / (skyRiseEnd - skyRiseStart);
            
-        } else if(totalSeconds >= skySetStart) {
+        } else if(totalSeconds >= skySetStart && totalSeconds < skySetEnd) {
             topLum = (totalSeconds + delay - skySetStart) / (skySetEnd - skySetStart);
+            topLum = Math.abs(1 - topLum);
             
 
             bottomLum = (totalSeconds - skySetStart) / (skySetEnd - skySetStart);
-            
+            bottomLum = Math.abs(1 - bottomLum);
         } else {
             topLum = 1;
             bottomLum = 1;
@@ -132,9 +134,9 @@ function moveSun() {
             sun.style.backgroundColor = `hsl(37,100%,100%)`
         }
 
-    if(totalSeconds > endTime) {
-        sun.style.display = 'none';
-    }
+    // if(totalSeconds > endTime) {
+    //     sun.style.display = 'none';
+    // }
 
 }
 
@@ -174,9 +176,9 @@ function moveMoon() {
       mappedMoonPosition = mapValue(moonPosition, 0, 1, -10, 50);
 
       let moonOpacity = (totalSeconds - moonStart) / (moonFull - moonStart);
-      let mappedMoonOpacity = mapValue(moonOpacity,0,1,0.2,1) * 100;
+      let mappedMoonOpacity = mapValue(moonOpacity, 0, 1, 0.2, 1);
 
-      moon.style.backgroundColor = `hsla(37, 100%, 97%, ${mappedMoonOpacity}%)`
+      moon.style.backgroundColor = `hsla(37, 100%, 97%, ${mappedMoonOpacity})`;
     
     } else {
         moonPosition = (totalSeconds) / moonEnd;
