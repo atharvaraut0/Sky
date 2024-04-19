@@ -92,6 +92,36 @@
   justify-content: space-between;
 }
 
+#console-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#console-button {
+  width: 1vw;
+  height: 1vw;
+  border-radius: 50%;
+  background-color: white;
+  cursor: cell;
+}
+
+#console-section:hover #console {
+  display: flex; /* Show console when hovering over console-section */
+}
+
+#console {
+  display: none;
+  color: rgb(250, 58, 202);
+  text-align: right;
+  font-family: "IBM Plex Mono";
+  font-size: 0.7vw;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding-top: 5%;
+}
+
 #bottom-ui {
   width: 100vw;
   /* background-color: blue; */
@@ -145,11 +175,13 @@
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.5vw;
+  /* gap: 0.5vw; */
   
 }
 
-
+#timecode {
+  height: 1.05vw;
+}
 
 #time-button {
   display: flex;
@@ -174,6 +206,7 @@
   font-style: normal;
   font-weight: 400;
   background-color: rgba(255, 255, 255, 0.60);
+  cursor: cell;
 }
 
 
@@ -186,4 +219,7 @@
   
 }
 
-.list-item:hover {background-color: rgba(165, 165, 165, 0.671)}
+.list-item:hover {
+  background-color: rgba(165, 165, 165, 0.671)
+  
+}

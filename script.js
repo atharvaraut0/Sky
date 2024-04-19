@@ -1,5 +1,9 @@
 console.log("This is a test")
 
+//defining console within the UI/////////////////////////////////////////////////////////////////////
+let consoleSpan = document.getElementById("console").innerHTML;
+console.log(consoleSpan)
+
 //logging time////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let initialTime = Date.now(); // Store the initial time for reference
@@ -16,12 +20,13 @@ function updateTime() {
     let timeString = `${hours}:${minutes}:${seconds}`;
     time.innerText = timeString;
     let timeArray = [hours, minutes, seconds];
+
+    consoleSpan = ""; //clear user console
+
     return timeArray;
 }
 
 console.log(updateTime())
-
-
 
 let updateTimeIntervalId;
 let changeSkyIntervalId;
@@ -121,6 +126,9 @@ function changeSky() {
 
     console.log('topLum: ' + mappedTopLum)
     console.log('bottomLum:' + mappedBottomLum)
+
+    consoleSpan = 'topLum: ' + mappedTopLum + '<br>' + 'bottomLum:' + mappedBottomLum;
+
     sky.style.background = `linear-gradient(180deg, hsl(201, 100%, ${mappedTopLum}%) 0%, hsl(201, 100%, ${mappedBottomLum}%) 100%)`;
 }
 
@@ -237,4 +245,4 @@ function moveMoon() {
     // }
 }
 
-// setInterval(moveMoon, 2000 / timeMultiplier);
+setInterval(moveMoon, 2000 / timeMultiplier);
