@@ -2,28 +2,69 @@ console.log("This is a test")
 
 //logging time////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let timeMultiplier = 1; // Speed multiplier for time 
-
-
+let initialTime = Date.now(); // Store the initial time for reference
+let timeMultiplier = 1; // Speed multiplier for time
 let time = document.getElementById("timecode");
+let startTimeSpeed = initialTime; // Store the start time for speed calculation
 
 function updateTime() {
-    let now = new Date();
+    let elapsed = (Date.now() - startTimeSpeed) * timeMultiplier; // Calculate the elapsed time
+    let now = new Date(initialTime + elapsed); // Calculate the current time based on initial time and elapsed time
     let hours = now.getHours().toString().padStart(2, '0');
     let minutes = now.getMinutes().toString().padStart(2, '0');
     let seconds = now.getSeconds().toString().padStart(2, '0');
     let timeString = `${hours}:${minutes}:${seconds}`;
     time.innerText = timeString;
     let timeArray = [hours, minutes, seconds];
-    // let timeArray = ['00','00','00']
-    // console.log(`${hours}:${minutes}:${seconds}`)
-    // console.log(timeArray)
     return timeArray;
 }
 
 console.log(updateTime())
 
-setInterval(updateTime, 1000); // Update every second
+
+
+let updateTimeIntervalId;
+let changeSkyIntervalId;
+let moveSunIntervalId;
+let moveMoonIntervalId;
+
+function startIntervals() {
+    updateTimeIntervalId = setInterval(updateTime, 1000 / timeMultiplier);
+    changeSkyIntervalId = setInterval(changeSky, 1000 / timeMultiplier);
+    moveSunIntervalId = setInterval(moveSun, 2000 / timeMultiplier);
+    moveMoonIntervalId = setInterval(moveMoon, 2000 / timeMultiplier);
+}
+
+function stopIntervals() {
+    clearInterval(updateTimeIntervalId);
+    clearInterval(changeSkyIntervalId);
+    clearInterval(moveSunIntervalId);
+    clearInterval(moveMoonIntervalId);
+}
+
+// Event listeners for time speed buttons
+document.querySelectorAll("#time-speedup .list-item").forEach(button => {
+    button.addEventListener("click", () => {
+        stopIntervals(); // Stop existing intervals
+        timeMultiplier = parseInt(button.textContent); // Set time multiplier to button's text content
+        console.log(`Time multiplier set to ${timeMultiplier}x`);
+        startIntervals(); // Start new intervals with the updated time multiplier
+        document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
+    });
+});
+
+// Event listener for reset button
+document.getElementById("reset-button").addEventListener("click", () => {
+    stopIntervals(); // Stop existing intervals
+    timeMultiplier = 1; // Reset time multiplier
+    startTimeSpeed = Date.now(); // Reset start time to current time
+    console.log("Time reset to current time");
+    startIntervals(); // Start new intervals with the updated time multiplier
+    document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
+});
+
+// Initial start of intervals
+startIntervals();
 
 //Setting global day based on season///////////////////////////////////////////////////////////////
 // Add functionality with buttons here
@@ -83,7 +124,7 @@ function changeSky() {
     sky.style.background = `linear-gradient(180deg, hsl(201, 100%, ${mappedTopLum}%) 0%, hsl(201, 100%, ${mappedBottomLum}%) 100%)`;
 }
 
-setInterval(changeSky, 1000); // Update sky background every second
+// setInterval(changeSky, 1000 / timeMultiplier); // Update sky background every second
 
 
 //Setting movement of the sun///////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +187,7 @@ function mapValue(value, a, b, c, d) {
     return c + ((value - a) * (d - c)) / (b - a);
 }
 
-setInterval(moveSun, 2000); // Update sun position 
+// setInterval(moveSun, 2000 / timeMultiplier); // Update sun position 
 
 
 //Setting movement of the moon ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +218,7 @@ function moveMoon() {
 
       let moonOpacity = (totalSeconds - moonStart) / (moonFull - moonStart);
       let mappedMoonOpacity = mapValue(moonOpacity, 0, 1, 0.2, 1);
+      console.log('opacity moon :' + mappedMoonOpacity);
 
       moon.style.backgroundColor = `hsla(37, 100%, 97%, ${mappedMoonOpacity})`;
     
@@ -195,4 +237,4 @@ function moveMoon() {
     // }
 }
 
-setInterval(moveMoon, 2000);
+// setInterval(moveMoon, 2000 / timeMultiplier);
