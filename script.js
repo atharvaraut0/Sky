@@ -96,42 +96,49 @@ function changeSky() {
     let skySetEnd = endTime + (30 * 60);
     let topLum;
     let bottomLum;
+    let cloudOpacity;
    
     let delay = 800;
 
     if(totalSeconds >= skyRiseStart && totalSeconds < skySetEnd) {
         if(totalSeconds < skyRiseEnd && totalSeconds >= skyRiseStart) {
             topLum = (totalSeconds - skyRiseStart) / (skyRiseEnd - skyRiseStart);
-            
-
             bottomLum = ((totalSeconds - delay) - skyRiseStart) / (skyRiseEnd - skyRiseStart);
+            cloudOpacity = topLum;
            
         } else if(totalSeconds >= skySetStart && totalSeconds < skySetEnd) {
             topLum = (totalSeconds + delay - skySetStart) / (skySetEnd - skySetStart);
             topLum = Math.abs(1 - topLum);
             
-
             bottomLum = (totalSeconds - skySetStart) / (skySetEnd - skySetStart);
             bottomLum = Math.abs(1 - bottomLum);
+            cloudOpacity = bottomLum;
         } else {
             topLum = 1;
             bottomLum = 1;
+            cloudOpacity = topLum;
         }
     } else {
         topLum = 0;
         bottomLum = 0;
+        cloudOpacity = topLum;
     }
 
     let mappedTopLum = mapValue(topLum,0,1,0,50);
     let mappedBottomLum = mapValue(bottomLum,0,1,0,50);
+    let mappedCloudOpacity = mapValue(cloudOpacity,0,1,0.3,1); 
 
     console.log('topLum: ' + mappedTopLum)
     console.log('bottomLum:' + mappedBottomLum)
+    console.log('cloud opacity:' + mappedCloudOpacity)
 
     consoleSpan = 'topLum: ' + mappedTopLum + '<br>' + 'bottomLum:' + mappedBottomLum;
 
     sky.style.background = `linear-gradient(180deg, hsl(201, 100%, ${mappedTopLum}%) 0%, hsl(201, 100%, ${mappedBottomLum}%) 100%)`;
+    clouds.style.opacity = mappedCloudOpacity;
 }
+
+
 
 // setInterval(changeSky, 1000 / timeMultiplier); // Update sky background every second
 
@@ -191,6 +198,8 @@ function moveSun() {
 }
 
 
+
+
 // Map value from the range [a, b] to the range [c, d]
 function mapValue(value, a, b, c, d) {
     return c + ((value - a) * (d - c)) / (b - a);
@@ -246,14 +255,17 @@ function moveMoon() {
     // }
 }
 
+
+
 // setInterval(moveMoon, 2000 / timeMultiplier);
 
-//Setting haze///////////////////////////////////////////////////////////////////////////
+//Setting haze and clouds///////////////////////////////////////////////////////////////////////////
 
 let fog = document.getElementById("fog");
 
 let weatherSelector = document.querySelector("#weather .dropup-btn");
 let weatherButtons = document.querySelectorAll("#weather .list-item");
+
 
 weatherSelector.textContent = 'Clear';
 fog.style.opacity = 0;
@@ -271,11 +283,18 @@ weatherButtons.forEach(button => {
             moon.style.filter = `url(#glow-moon) blur(${seed * 31}px)`;
             console.log('moon blur:' + seed);
             stars.style.filter = `blur(${seed * 11}px`;
+            clouds.style.display = 'none';
+
+            if(button.textContent === 'Cloudy') {
+            clouds.style.display = 'flex';
+            }
+
         } else {
             fog.style.opacity = 0;
             sun.style.filter = ''; // Reset the filter when not hazy or cloudy
             moon.style.filter = '';
             stars.style.filter = '';
+            clouds.style.display = 'none';
         }
 
         weatherSelector.textContent = button.textContent;
@@ -298,12 +317,13 @@ function updateHaze() {
    
 }
 
-setInterval(updateHaze, 1000);
+setInterval(updateHaze, 500);
 
 // adding stars /////////////////////////////////////////////////////////////////////////
 
 let stars = document.getElementById("stars");
 let singleStar = document.getElementsByClassName("single-star");
+
 
 function scatterStarsIfNighttime(numStars) {
     let timeArray = updateTime();
@@ -330,5 +350,38 @@ function scatterStarsIfNighttime(numStars) {
     }
 }
 
-// Call the function periodically to scatter stars during nighttime
-setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 1000); // Scatter stars every second during nighttime
+setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 500); // Scatter stars
+
+// Scatter clouds //////////////////////////////////////////////////////////////////////////
+
+let clouds = document.getElementById("clouds");
+let singleCloud = document.getElementsByClassName("single-cloud");
+clouds.innerHTML = '';
+
+
+function scatterClouds(numClouds) {
+    
+    if(clouds.children.length === 0) {
+        for (let i = 0; i < numClouds; i++) {
+            let cloud = document.createElement("div");
+            cloud.classList.add("single-cloud");
+            cloud.style.left = `${Math.random(i) * 100}vw`;
+            cloud.style.top = `${Math.random(i) * 100}vh`;
+            
+            let cloudWidth = mapValue(Math.random(i),0,1,15,35);
+            let cloudHeight = (cloudWidth / 2) + (mapValue(Math.random(i),0,1,-2,2));
+
+            cloud.style.width = `${cloudWidth}vw`;
+            cloud.style.height = `${cloudHeight}vw`;
+            // cloud.style.opacity = `${mapValue((Math.random(i),0,1,0.5,1))}`;
+            clouds.appendChild(cloud);
+        }
+    }
+}
+
+scatterClouds((globalSeed + 1) * 12);
+
+//initialize functions before interval
+changeSky();
+moveMoon();
+moveSun();

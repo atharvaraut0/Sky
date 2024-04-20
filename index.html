@@ -20,7 +20,7 @@
             <div class="single-star"></div>
         </div>
         <div id="clouds">
-            <div id="single-cloud"></div>
+            <div class="single-cloud"></div>
         </div>
 
         <!-- SVG Filters -->
@@ -101,6 +101,32 @@
               </filter>
             </defs>
         </svg>
+        <svg width="0" height="0"> 
+            <filter id="cloud-noise">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="5" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" scale="250" result="displacement" />
+
+                 <!-- Convert the noise to grayscale -->
+                 <feColorMatrix in="noise" type="matrix" values="0.3333 0.3333 0.3333 0 0
+                 0.3333 0.3333 0.3333 0 0
+                 0.3333 0.3333 0.3333 0 0
+                 0      0      0      1 0" result="grayscaleNoise"/>
+
+        
+                <!-- Add noise to the color -->
+                <feBlend in="SourceGraphic" in2="grayscaleNoise" mode="screen" result="blend"/>
+                <feComposite in="blend" in2="displacement" operator="in" result="composite"/>
+
+                <feMerge>
+                    <feMergeNode in="displacement"/>
+                    <feMergeNode in="composite"/>
+                </feMerge>
+        
+            </filter>
+        </svg>
+        >
+        
+        
 
         <!-- User Interface -->
         <div id="ui">

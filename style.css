@@ -114,6 +114,26 @@
   
 }
 
+#clouds {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 3;
+  display: none;
+  
+}
+
+.single-cloud {
+  width: 30vw;
+  height: 15vw;
+  border-radius: 50%;
+  position: absolute;
+  background-color: gray;
+  box-shadow: 3vw 1vh 11vh 0px #fff;
+  filter: url(#cloud-noise) blur(25px);
+  opacity: 0.9;
+}
+
 
 #ui {
   width: 100vw;
