@@ -1,4 +1,5 @@
 console.log("This is a test")
+let globalSeed = Math.random();
 
 //defining console within the UI/////////////////////////////////////////////////////////////////////
 let consoleSpan = document.getElementById("console").innerHTML;
@@ -269,10 +270,12 @@ weatherButtons.forEach(button => {
             console.log('sun blur:' + seed);
             moon.style.filter = `url(#glow-moon) blur(${seed * 31}px)`;
             console.log('moon blur:' + seed);
+            stars.style.filter = `blur(${seed * 11}px`;
         } else {
             fog.style.opacity = 0;
             sun.style.filter = ''; // Reset the filter when not hazy or cloudy
             moon.style.filter = '';
+            stars.style.filter = '';
         }
 
         weatherSelector.textContent = button.textContent;
@@ -296,3 +299,36 @@ function updateHaze() {
 }
 
 setInterval(updateHaze, 1000);
+
+// adding stars /////////////////////////////////////////////////////////////////////////
+
+let stars = document.getElementById("stars");
+let singleStar = document.getElementsByClassName("single-star");
+
+function scatterStarsIfNighttime(numStars) {
+    let timeArray = updateTime();
+    let hours = parseInt(timeArray[0]);
+    let minutes = parseInt(timeArray[1]);
+    let seconds = parseInt(timeArray[2]);
+    let totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+    if (totalSeconds < startTime || totalSeconds > endTime) {
+        if(stars.children.length === 0) {
+        for (let i = 0; i < numStars; i++) {
+            let star = document.createElement("div");
+            star.classList.add("single-star");
+            star.style.left = `${Math.random(i) * 100}vw`;
+            star.style.top = `${Math.random(i) * 100}vh`;
+            star.style.width = `${Math.random(i) * 0.4}vw`
+            star.style.height = star.style.width;
+            star.style.opacity = `${mapValue((Math.random(i) * 0.4),0,0.4,0.5,1)}`;
+            stars.appendChild(star);
+        }
+        }
+    } else if (totalSeconds >= startTime && totalSeconds <= endTime) {
+        stars.innerHTML = "";
+    }
+}
+
+// Call the function periodically to scatter stars during nighttime
+setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 1000); // Scatter stars every second during nighttime

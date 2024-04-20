@@ -101,14 +101,16 @@
   height: 100vh;
   position: absolute;
   z-index: 1;
-  display: none;
+  display: flex;
 }
 
-#single-star {
+.single-star {
   width: 0.3vw;
   height: 0.3vw;
   border-radius: 50%;
-  background-color: red;
+  position: absolute;
+  background-color: white;
+  filter: url(#glow-star) blur(0px);
   
 }
 

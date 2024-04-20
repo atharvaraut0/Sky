@@ -17,7 +17,7 @@
         <div id="moon"></div>
         <div id="fog"></div>
         <div id="stars">
-            <div id="single-star"></div>
+            <div class="single-star"></div>
         </div>
         <div id="clouds">
             <div id="single-cloud"></div>
@@ -49,6 +49,26 @@
               <filter id="glow-moon" x="-100%" y="-100%" width="300%" height="300%">
                 <!-- First blur to create the initial glow effect -->
                 <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1"/>
+                
+                <!-- Apply an additional blur over the merged image -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2"/>
+                
+                <!-- Merge the first blur with the original graphic -->
+                <feMerge>
+                  <feMergeNode in="blur1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+                
+                <!-- Merge the additional blur with the merged image -->
+                <feComposite in="blur2" in2="merge" operator="over"/>
+              </filter>
+            </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+              <filter id="glow-star" x="-100%" y="-100%" width="300%" height="300%">
+                <!-- First blur to create the initial glow effect -->
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur1"/>
                 
                 <!-- Apply an additional blur over the merged image -->
                 <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2"/>
