@@ -40,7 +40,7 @@ function startIntervals() {
     changeSkyIntervalId = setInterval(changeSky, 1000 / timeMultiplier);
     moveSunIntervalId = setInterval(moveSun, 2000 / timeMultiplier);
     moveMoonIntervalId = setInterval(moveMoon, 2000 / timeMultiplier);
-    moveCloudsIntervalId = setInterval(moveClouds, 2000 / timeMultiplier);
+    moveCloudsIntervalId = setInterval(moveClouds, 5000 / timeMultiplier);
 }
 
 function stopIntervals() {
@@ -72,13 +72,46 @@ document.getElementById("reset-button").addEventListener("click", () => {
     document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
 });
 
-// Initial start of intervals
-startIntervals();
+
 
 //Setting global day based on season///////////////////////////////////////////////////////////////
-// Add functionality with buttons here
+
 let startTime = 6 * 3600;
 let endTime = (19 * 3600) + (30 * 60); // 7:30 PM
+
+let seasonSelector = document.querySelector("#season .dropup-btn");
+let seasonButtons = document.querySelectorAll("#season .list-item");
+
+seasonSelector.textContent = 'Summer';
+
+
+seasonButtons.forEach(button => {
+    button.addEventListener("click", () => {
+
+        if(button.textContent === 'Fall') {
+            startTime = 7 * 3600;
+            endTime = 17 * 3600;
+
+        } else if(button.textContent === 'Spring') {
+            startTime = (6 * 3600) + (30 * 60);
+            endTime = (19 * 3600) + (30 * 60);
+        }
+
+        seasonSelector.textContent = button.textContent;
+        
+        stopIntervals(); // Stop existing intervals
+        timeMultiplier = 1; // Reset time multiplier
+        startTimeSpeed = Date.now(); // Reset start time to current time
+        console.log("Time reset to current time");
+        startIntervals(); // Start new intervals with the updated time multiplier
+        document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
+
+
+    });
+});
+
+// Initial start of intervals
+startIntervals();
 
 //Setting the color of the sky/////////////////////////////////////////////////////////////////////////////////
 
