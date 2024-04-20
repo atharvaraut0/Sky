@@ -33,12 +33,14 @@ let updateTimeIntervalId;
 let changeSkyIntervalId;
 let moveSunIntervalId;
 let moveMoonIntervalId;
+let moveCloudsIntervalId;
 
 function startIntervals() {
     updateTimeIntervalId = setInterval(updateTime, 1000 / timeMultiplier);
     changeSkyIntervalId = setInterval(changeSky, 1000 / timeMultiplier);
     moveSunIntervalId = setInterval(moveSun, 2000 / timeMultiplier);
     moveMoonIntervalId = setInterval(moveMoon, 2000 / timeMultiplier);
+    moveCloudsIntervalId = setInterval(moveClouds, 2000 / timeMultiplier);
 }
 
 function stopIntervals() {
@@ -46,6 +48,7 @@ function stopIntervals() {
     clearInterval(changeSkyIntervalId);
     clearInterval(moveSunIntervalId);
     clearInterval(moveMoonIntervalId);
+    clearInterval(moveCloudsIntervalId);
 }
 
 // Event listeners for time speed buttons
@@ -379,9 +382,30 @@ function scatterClouds(numClouds) {
     }
 }
 
-scatterClouds((globalSeed + 1) * 12);
+scatterClouds((globalSeed + 1) * 16);
+
+//Move Clouds ////////////////////////////////////////////////////////////////////////
+
+function moveClouds() {
+    let timeArray = updateTime();
+
+    let hours = parseInt(timeArray[0]);
+    let minutes = parseInt(timeArray[1]);
+    let seconds = parseInt(timeArray[2]);
+    let totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+    let midnight = 86399;
+
+    let cloudMove = Math.sin((totalSeconds / midnight) * Math.PI * 1).toFixed(3);
+    console.log('cloud move:' + cloudMove)
+
+    let mappedCloudMove = mapValue(cloudMove,0,1,-25,25);
+    clouds.style.left = `${mappedCloudMove}vw`;
+
+}
+
 
 //initialize functions before interval
 changeSky();
 moveMoon();
 moveSun();
+moveClouds();

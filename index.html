@@ -68,10 +68,10 @@
             <defs>
               <filter id="glow-star" x="-100%" y="-100%" width="300%" height="300%">
                 <!-- First blur to create the initial glow effect -->
-                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur1"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
                 
                 <!-- Apply an additional blur over the merged image -->
-                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur2"/>
                 
                 <!-- Merge the first blur with the original graphic -->
                 <feMerge>
@@ -124,9 +124,6 @@
         
             </filter>
         </svg>
-        >
-        
-        
 
         <!-- User Interface -->
         <div id="ui">
