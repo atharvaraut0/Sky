@@ -245,4 +245,54 @@ function moveMoon() {
     // }
 }
 
-setInterval(moveMoon, 2000 / timeMultiplier);
+// setInterval(moveMoon, 2000 / timeMultiplier);
+
+//Setting haze///////////////////////////////////////////////////////////////////////////
+
+let fog = document.getElementById("fog");
+
+let weatherSelector = document.querySelector("#weather .dropup-btn");
+let weatherButtons = document.querySelectorAll("#weather .list-item");
+
+weatherSelector.textContent = 'Clear';
+fog.style.opacity = 0;
+
+weatherButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        let seed = Math.random();
+
+        if (button.textContent === 'Hazy' || button.textContent === 'Cloudy') {
+            // fog.style.display = 'flex';
+            fog.style.opacity = seed * 0.35;
+            console.log('fog opacity: ' + fog.style.opacity);
+            sun.style.filter = `url(#glow) blur(${seed * 51}px)`;
+            console.log('sun blur:' + seed);
+            moon.style.filter = `url(#glow-moon) blur(${seed * 31}px)`;
+            console.log('moon blur:' + seed);
+        } else {
+            fog.style.opacity = 0;
+            sun.style.filter = ''; // Reset the filter when not hazy or cloudy
+            moon.style.filter = '';
+        }
+
+        weatherSelector.textContent = button.textContent;
+    });
+});
+
+function updateHaze() {
+    let timeArray = updateTime();
+    let hours = parseInt(timeArray[0]);
+    let minutes = parseInt(timeArray[1]);
+    let seconds = parseInt(timeArray[2]);
+    let totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+   
+    if(totalSeconds >= startTime && totalSeconds < endTime) {
+        fog.style.display = 'flex';
+    }  else {
+        fog.style.display = 'none';
+    }
+   
+}
+
+setInterval(updateHaze, 1000);

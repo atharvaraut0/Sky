@@ -49,6 +49,7 @@
     background: linear-gradient(180deg, hsl(201, 100%, 63%) 0%, hsl(201, 100%, 50%) 100%);
     display: flex;
     justify-content: center;
+    /* filter: url(#fog-grain); */
     
     
 }
@@ -69,8 +70,9 @@
   border-radius: 50%;
   box-shadow: 0px 2px 4px 0px rgba(255, 0, 0, 0.05) inset;
   /* filter: drop-shadow(0px 0px 625px rgba(255, 255, 255, 0.75)) blur(225px); */
-  filter: url(#glow);
-  position: absolute;     
+  filter: url(#glow) blur(0px);
+  position: absolute;
+  z-index: 2;     
 }
 
 #moon {
@@ -79,17 +81,49 @@
   background-color: hsla(37, 100%, 97%, 1);
   border-radius: 50%;
   position: absolute;
-  filter: url(#glow-moon);
+  z-index: 2;
+  filter: url(#glow-moon) blur(0px);
 }
+
+#fog {
+  width: 100vw;
+  height: 100vh;
+  display : none;
+  background-color: #6b6b6b;
+  opacity: 30%;
+  z-index: 4; 
+  position: absolute;
+  filter: url(#grainy); 
+}
+
+#stars {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1;
+  display: none;
+}
+
+#single-star {
+  width: 0.3vw;
+  height: 0.3vw;
+  border-radius: 50%;
+  background-color: red;
+  
+}
+
 
 #ui {
   width: 100vw;
+  height: 100vh;
   padding: 0.5% 0.7%;
   /* background-color: red; */
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+  z-index: 5;
+  position: absolute;
 }
 
 #console-section {
@@ -192,7 +226,7 @@
   display: none;
   position: relative;
   background-color: rgba(255, 255, 255, 0.60);
-  z-index: 1;
+  z-index: 4;
   flex-direction: column; /* Display items in a vertical column */
 }
 
