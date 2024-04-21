@@ -95,6 +95,9 @@ seasonButtons.forEach(button => {
         } else if(button.textContent === 'Spring') {
             startTime = (6 * 3600) + (30 * 60);
             endTime = (19 * 3600) + (30 * 60);
+        } else {
+            startTime = 6 * 3600;
+            endTime = (19 * 3600) + (30 * 60);
         }
 
         seasonSelector.textContent = button.textContent;
