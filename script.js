@@ -2,8 +2,15 @@ console.log("This is a test")
 let globalSeed = Math.random();
 
 //defining console within the UI/////////////////////////////////////////////////////////////////////
-let consoleSpan = document.getElementById("console").innerHTML;
-console.log(consoleSpan)
+let consoleSpan = document.getElementById("console");
+consoleSpan.innerHTML = 'CONSOLE';
+console.log(consoleSpan.textContent);
+
+function clearConsole() {
+    consoleSpan.innerHTML = '';
+}
+
+
 
 //logging time////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,13 +29,14 @@ function updateTime() {
     time.innerText = timeString;
     let timeArray = [hours, minutes, seconds];
 
-    consoleSpan = ""; //clear user console
+    
 
     return timeArray;
 }
 
 console.log(updateTime())
 
+let clearConsoleIntervalId;
 let updateTimeIntervalId;
 let changeSkyIntervalId;
 let moveSunIntervalId;
@@ -36,6 +44,7 @@ let moveMoonIntervalId;
 let moveCloudsIntervalId;
 
 function startIntervals() {
+    clearConsoleIntervalId = setInterval(clearConsole, 5005 / timeMultiplier);
     updateTimeIntervalId = setInterval(updateTime, 1000 / timeMultiplier);
     changeSkyIntervalId = setInterval(changeSky, 1000 / timeMultiplier);
     moveSunIntervalId = setInterval(moveSun, 2000 / timeMultiplier);
@@ -49,6 +58,7 @@ function stopIntervals() {
     clearInterval(moveSunIntervalId);
     clearInterval(moveMoonIntervalId);
     clearInterval(moveCloudsIntervalId);
+    clearInterval(clearConsoleIntervalId);
 }
 
 // Event listeners for time speed buttons
@@ -59,6 +69,7 @@ document.querySelectorAll("#time-speedup .list-item").forEach(button => {
         console.log(`Time multiplier set to ${timeMultiplier}x`);
         startIntervals(); // Start new intervals with the updated time multiplier
         document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
+
     });
 });
 
@@ -108,7 +119,7 @@ seasonButtons.forEach(button => {
         console.log("Time reset to current time");
         startIntervals(); // Start new intervals with the updated time multiplier
         document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
-
+        
 
     });
 });
@@ -171,8 +182,10 @@ function changeSky() {
     console.log('bottomLum:' + mappedBottomLum)
     console.log('cloud opacity:' + mappedCloudOpacity)
 
-    consoleSpan = 'topLum: ' + mappedTopLum + '<br>' + 'bottomLum:' + mappedBottomLum;
-
+    
+    
+    consoleSpan.innerHTML += `<br> top sky = ${topLum} <br> bottom sky = ${bottomLum}`;
+    
     sky.style.background = `linear-gradient(180deg, hsl(201, 100%, ${mappedTopLum}%) 0%, hsl(201, 100%, ${mappedBottomLum}%) 100%)`;
     clouds.style.opacity = mappedCloudOpacity;
 }
@@ -205,6 +218,7 @@ function moveSun() {
     // Map sunPosition from the range [0, 1] to the range [-10, 99]
     let mappedSunPosition = mapValue(sunPosition, 0, 1, -10, 99);
     console.log(mappedSunPosition)
+    consoleSpan.innerHTML += `<br> sun positon = ${mappedSunPosition.toFixed(3)}`;
 
     // Set the top property of the sun div
     sun.style.top = `${mappedSunPosition}vh`;
@@ -221,13 +235,19 @@ function moveSun() {
         let val = (totalSeconds - sunRiseStart) / (sunRiseEnd - sunRiseStart);
         let mappedVal = mapValue(val,0,1,50,100);
         sun.style.backgroundColor = `hsl(37,100%,${mappedVal}%)`
+        //user-console
+        consoleSpan.innerHTML += `<br>sun color = hsl(37,100%,${mappedVal.toFixed(3)}%)`
         console.log(mappedVal)
     } else if(totalSeconds > sunSetStart) {
         let val = (totalSeconds - sunSetStart) / (sunSetEnd - sunSetStart);
         let mappedVal = mapValue(val,0,1,100,50);
         sun.style.backgroundColor = `hsl(29,100%,${mappedVal}%)` 
+        //user-console
+        consoleSpan.innerHTML += `<br>sun color = hsl(29,100%,${mappedVal.toFixed(3)}%)`
     } else {
             sun.style.backgroundColor = `hsl(37,100%,100%)`
+            //user-console
+            consoleSpan.innerHTML += `<br>sun color = hsl(37,100%,100%)`
         }
 
     // if(totalSeconds > endTime) {
@@ -288,6 +308,8 @@ function moveMoon() {
     console.log('moon position: ' + mappedMoonPosition)
     // Set the top property of the moon div
     moon.style.top = `${mappedMoonPosition}vh`;
+    //user-console
+    consoleSpan.innerHTML += `<br>Moon position = ${mappedMoonPosition.toFixed(3)}`
 
     // if(totalSeconds < moonStart || totalSeconds >= moonEnd) {
     //     moon.style.display = 'none';
@@ -337,6 +359,7 @@ weatherButtons.forEach(button => {
         }
 
         weatherSelector.textContent = button.textContent;
+        
     });
 });
 
@@ -382,6 +405,7 @@ function scatterStarsIfNighttime(numStars) {
             star.style.height = star.style.width;
             star.style.opacity = `${mapValue((Math.random(i) * 0.4),0,0.4,0.5,1)}`;
             stars.appendChild(star);
+            consoleSpan.innerhTML += `<br>Stars = ${stars.children.length}`;
         }
         }
     } else if (totalSeconds >= startTime && totalSeconds <= endTime) {
@@ -395,6 +419,7 @@ setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 500); // Scat
 
 let clouds = document.getElementById("clouds");
 let singleCloud = document.getElementsByClassName("single-cloud");
+let cloudSeed = Math.random();
 clouds.innerHTML = '';
 
 
