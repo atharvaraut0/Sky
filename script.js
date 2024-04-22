@@ -128,7 +128,7 @@ seasonButtons.forEach(button => {
         moveMoon();
         moveSun();
         moveClouds();
-        
+
         startIntervals(); // Start new intervals with the updated time multiplier
         document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
         
@@ -425,6 +425,7 @@ function scatterStarsIfNighttime(numStars) {
     }
 }
 
+// scatterStarsIfNighttime();
 setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 500); // Scatter stars
 
 // Scatter clouds //////////////////////////////////////////////////////////////////////////
