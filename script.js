@@ -79,6 +79,12 @@ document.getElementById("reset-button").addEventListener("click", () => {
     timeMultiplier = 1; // Reset time multiplier
     startTimeSpeed = Date.now(); // Reset start time to current time
     console.log("Time reset to current time");
+    //initialize functions
+    changeSky();
+    moveMoon();
+    moveSun();
+    moveClouds();
+
     startIntervals(); // Start new intervals with the updated time multiplier
     document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
 });
@@ -117,6 +123,12 @@ seasonButtons.forEach(button => {
         timeMultiplier = 1; // Reset time multiplier
         startTimeSpeed = Date.now(); // Reset start time to current time
         console.log("Time reset to current time");
+        //initialize functions
+        changeSky();
+        moveMoon();
+        moveSun();
+        moveClouds();
+        
         startIntervals(); // Start new intervals with the updated time multiplier
         document.getElementById("show-speed").innerText = `${timeMultiplier}X`; // Update the button text
         
