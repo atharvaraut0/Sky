@@ -445,7 +445,7 @@ function scatterClouds(numClouds) {
             cloud.style.left = `${Math.random(i) * 100}vw`;
             cloud.style.top = `${Math.random(i) * 100}vh`;
             
-            let cloudWidth = mapValue(Math.random(i),0,1,15,35);
+            let cloudWidth = mapValue(Math.random(i),0,1,25,55);
             let cloudHeight = (cloudWidth / 2) + (mapValue(Math.random(i),0,1,-2,2));
 
             cloud.style.width = `${cloudWidth}vw`;
@@ -456,7 +456,7 @@ function scatterClouds(numClouds) {
     }
 }
 
-scatterClouds((globalSeed + 1) * 16);
+scatterClouds((globalSeed + 1) * 3);
 
 //Move Clouds ////////////////////////////////////////////////////////////////////////
 
@@ -474,8 +474,11 @@ function moveClouds() {
 
     let mappedCloudMove = mapValue(cloudMove,0,1,-25,25);
     clouds.style.left = `${mappedCloudMove}vw`;
+    
 
 }
+
+
 
 
 //initialize functions before interval
