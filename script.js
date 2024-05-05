@@ -426,7 +426,7 @@ function scatterStarsIfNighttime(numStars) {
 }
 
 // scatterStarsIfNighttime();
-setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 25), 500); // Scatter stars
+setInterval(() => scatterStarsIfNighttime((globalSeed + 15) * 15), 500); // Scatter stars
 
 // Scatter clouds //////////////////////////////////////////////////////////////////////////
 
